@@ -149,7 +149,7 @@ $dados_api = [
 $api_key = GEMINI_API_KEY;
 
 // Monta a URL completa da API com a chave
-$url = "https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=" . $api_key;
+$url = "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key={$api_key}";
 
 // Inicializa sessão cURL
 $curl = curl_init();
@@ -395,4 +395,5 @@ echo json_encode([
  * 
  * ========================================
  */
+
 ?>
