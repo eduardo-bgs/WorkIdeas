@@ -1,1 +1,0 @@
-[04-Oct-2025 19:14:09 America/Sao_Paulo] PHP Warning:  mysqli::__construct(): (HY000/1049): Unknown database 'projeto_ia_academico' in C:\xampp\htdocs\WorkIdeas\config.php on line 78
