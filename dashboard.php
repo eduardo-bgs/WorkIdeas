@@ -66,39 +66,6 @@ $conn->close();
         }
         
         /* ========================================
-           ESTILIZAÇÃO DA SCROLLBAR (BARRA DE ROLAGEM)
-           SCROLLBAR GRANDE COM GRADIENTE VIBRANTE
-           ======================================== */
-        /* Para navegadores WebKit (Chrome, Safari, Edge) */
-        ::-webkit-scrollbar {
-            width: 16px;
-            height: 16px;
-        }
-        
-        ::-webkit-scrollbar-track {
-            background: #2a2b32;
-            border-radius: 10px;
-        }
-        
-        ::-webkit-scrollbar-thumb {
-            background: linear-gradient(180deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
-            border-radius: 10px;
-            border: 3px solid #2a2b32;
-            transition: all 0.3s ease;
-        }
-        
-        ::-webkit-scrollbar-thumb:hover {
-            background: linear-gradient(180deg, #f093fb 0%, #764ba2 50%, #667eea 100%);
-            border: 2px solid #2a2b32;
-        }
-        
-        /* Para Firefox */
-        * {
-            scrollbar-width: auto;
-            scrollbar-color: #667eea #2a2b32;
-        }
-        
-        /* ========================================
            CABEÇALHO (HEADER)
            ======================================== */
         .header {
@@ -227,178 +194,39 @@ $conn->close();
         }
         
         /* ========================================
-           CARROSSEL DE SUGESTÕES
-           LAYOUT TRIANGULAR EM DESKTOP
+           CARDS DE SUGESTÕES
            ======================================== */
-        .carousel-container {
-            position: relative;
-            margin-top: 40px;
-            padding: 0 80px;
-            max-width: 100%;
-        }
-        
-        .carousel-wrapper {
-            overflow: hidden;
-            border-radius: 15px;
-            min-height: 350px;
-            display: flex;
-            align-items: center;
-        }
-        
         .suggestions {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 20px;
-            justify-content: center;
-            align-items: center;
-            width: 100%;
-            transition: opacity 0.5s ease;
-            padding: 20px 0;
-        }
-        
-        /* Layout triangular para desktop */
-        @media (min-width: 1024px) {
-            .suggestions {
-                max-width: 800px;
-                margin: 0 auto;
-            }
-            
-            .suggestion-card:nth-child(3n + 1),
-            .suggestion-card:nth-child(3n + 2) {
-                flex: 0 0 calc(50% - 10px);
-            }
-            
-            .suggestion-card:nth-child(3n) {
-                flex: 0 0 350px;
-                margin: 0 auto;
-            }
-        }
-        
-        /* Layout para tablet */
-        @media (min-width: 768px) and (max-width: 1023px) {
-            .suggestion-card {
-                flex: 0 0 calc(50% - 10px);
-            }
-        }
-        
-        /* Layout para mobile */
-        @media (max-width: 767px) {
-            .carousel-container {
-                padding: 0 50px;
-            }
-            
-            .suggestion-card {
-                flex: 0 0 100%;
-            }
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
         }
         
         .suggestion-card {
             background: #444654;
-            padding: 25px;
-            border-radius: 12px;
+            padding: 15px;
+            border-radius: 10px;
             cursor: pointer;
-            transition: all 0.3s ease;
-            border: 2px solid transparent;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            min-height: 130px;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
+            transition: all 0.3s;
+            border: 1px solid transparent;
         }
         
         .suggestion-card:hover {
             background: #565869;
             border-color: #10a37f;
-            transform: translateY(-5px) scale(1.02);
-            box-shadow: 0 8px 20px rgba(16, 163, 127, 0.3);
+            transform: translateY(-2px);
         }
         
         .suggestion-card h4 {
-            font-size: 18px;
-            margin-bottom: 10px;
+            font-size: 14px;
+            margin-bottom: 8px;
             color: #10a37f;
-            display: flex;
-            align-items: center;
-            gap: 10px;
         }
         
         .suggestion-card p {
-            font-size: 14px;
+            font-size: 13px;
             color: #b4b4b4;
-            line-height: 1.5;
-        }
-        
-        /* Botões de navegação do carrossel */
-        .carousel-btn {
-            position: absolute;
-            top: 50%;
-            transform: translateY(-50%);
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            border: none;
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            cursor: pointer;
-            font-size: 24px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.3s ease;
-            z-index: 10;
-            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
-        }
-        
-        .carousel-btn:hover {
-            transform: translateY(-50%) scale(1.15);
-            box-shadow: 0 6px 25px rgba(102, 126, 234, 0.7);
-        }
-        
-        .carousel-btn:active {
-            transform: translateY(-50%) scale(1.05);
-        }
-        
-        .carousel-btn.prev {
-            left: 10px;
-        }
-        
-        .carousel-btn.next {
-            right: 10px;
-        }
-        
-        .carousel-btn:disabled {
-            opacity: 0.3;
-            cursor: not-allowed;
-            transform: translateY(-50%);
-        }
-        
-        /* Indicadores de navegação (dots) */
-        .carousel-indicators {
-            display: flex;
-            justify-content: center;
-            gap: 10px;
-            margin-top: 25px;
-        }
-        
-        .indicator-dot {
-            width: 12px;
-            height: 12px;
-            border-radius: 50%;
-            background: #444654;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            border: 2px solid transparent;
-        }
-        
-        .indicator-dot.active {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            width: 35px;
-            border-radius: 6px;
-        }
-        
-        .indicator-dot:hover {
-            border-color: #667eea;
-            transform: scale(1.2);
         }
         
         /* ========================================
@@ -507,7 +335,7 @@ $conn->close();
         }
         
         /* ========================================
-           LOADING (CARREGAMENTO)
+           LOADING
            ======================================== */
         .loading {
             display: none;
@@ -543,7 +371,7 @@ $conn->close();
         }
         
         /* ========================================
-           MODAL DE HISTÓRICO
+           HISTÓRICO
            ======================================== */
         .modal {
             display: none;
@@ -650,56 +478,25 @@ $conn->close();
                 <h2>Como vamos iniciar seu projeto?</h2>
                 <p>Descreva o tema ou área de interesse do seu trabalho acadêmico e receba sugestões criativas geradas por IA!</p>
                 
-                <!-- Carrossel de sugestões -->
-                <div class="carousel-container">
-                    <button class="carousel-btn prev" id="prevBtn" onclick="moveCarousel(-1)">‹</button>
-                    
-                    <div class="carousel-wrapper">
-                        <div class="suggestions" id="carouselSuggestions">
-                            <div class="suggestion-card" onclick="usarSugestao('Projeto de tecnologia')">
-                                <h4>💻 Tecnologia</h4>
-                                <p>Ideias para projetos de TI e programação</p>
-                            </div>
-                            <div class="suggestion-card" onclick="usarSugestao('Projeto de administração')">
-                                <h4>📊 Administração</h4>
-                                <p>Temas de gestão e negócios</p>
-                            </div>
-                            <div class="suggestion-card" onclick="usarSugestao('Projeto de engenharia')">
-                                <h4>⚙️ Engenharia</h4>
-                                <p>Projetos técnicos e inovação</p>
-                            </div>
-                            <div class="suggestion-card" onclick="usarSugestao('Projeto de educação')">
-                                <h4>📚 Educação</h4>
-                                <p>Metodologias e pedagogia</p>
-                            </div>
-                            <div class="suggestion-card" onclick="usarSugestao('Projeto de saúde')">
-                                <h4>🏥 Saúde</h4>
-                                <p>Medicina, enfermagem e bem-estar</p>
-                            </div>
-                            <div class="suggestion-card" onclick="usarSugestao('Projeto de meio ambiente')">
-                                <h4>🌱 Meio Ambiente</h4>
-                                <p>Sustentabilidade e ecologia</p>
-                            </div>
-                            <div class="suggestion-card" onclick="usarSugestao('Projeto de marketing')">
-                                <h4>📱 Marketing</h4>
-                                <p>Marketing digital e comunicação</p>
-                            </div>
-                            <div class="suggestion-card" onclick="usarSugestao('Projeto de direito')">
-                                <h4>⚖️ Direito</h4>
-                                <p>Temas jurídicos e legislação</p>
-                            </div>
-                            <div class="suggestion-card" onclick="usarSugestao('Projeto de psicologia')">
-                                <h4>🧠 Psicologia</h4>
-                                <p>Comportamento e saúde mental</p>
-                            </div>
-                        </div>
+                <!-- Sugestões rápidas -->
+                <div class="suggestions">
+                    <div class="suggestion-card" onclick="usarSugestao('Projeto de tecnologia')">
+                        <h4>💻 Tecnologia</h4>
+                        <p>Ideias para projetos de TI e programação</p>
                     </div>
-                    
-                    <button class="carousel-btn next" id="nextBtn" onclick="moveCarousel(1)">›</button>
+                    <div class="suggestion-card" onclick="usarSugestao('Projeto de administração')">
+                        <h4>📊 Administração</h4>
+                        <p>Temas de gestão e negócios</p>
+                    </div>
+                    <div class="suggestion-card" onclick="usarSugestao('Projeto de engenharia')">
+                        <h4>⚙️ Engenharia</h4>
+                        <p>Projetos técnicos e inovação</p>
+                    </div>
+                    <div class="suggestion-card" onclick="usarSugestao('Projeto de educação')">
+                        <h4>📚 Educação</h4>
+                        <p>Metodologias e pedagogia</p>
+                    </div>
                 </div>
-                
-                <!-- Indicadores do carrossel -->
-                <div class="carousel-indicators" id="carouselIndicators"></div>
             </div>
             
             <!-- Indicador de carregamento -->
@@ -763,143 +560,6 @@ $conn->close();
          JAVASCRIPT - FUNCIONALIDADES
          ======================================== -->
     <script>
-        // ========================================
-        // VARIÁVEIS GLOBAIS DO CARROSSEL
-        // ========================================
-        let currentPage = 0;
-        let cardsPerPage = 3;
-        let totalCards = 9;
-        let totalPages = Math.ceil(totalCards / cardsPerPage);
-        
-        /**
-         * FUNÇÃO: initCarousel()
-         * DESCRIÇÃO: Inicializa o carrossel ao carregar a página
-         */
-        function initCarousel() {
-            updateCardsPerPage();
-            createIndicators();
-            showPage(currentPage);
-            
-            // Atualiza ao redimensionar janela
-            window.addEventListener('resize', () => {
-                updateCardsPerPage();
-                createIndicators();
-                showPage(currentPage);
-            });
-        }
-        
-        /**
-         * FUNÇÃO: updateCardsPerPage()
-         * DESCRIÇÃO: Define quantos cards mostrar por página baseado no tamanho da tela
-         */
-        function updateCardsPerPage() {
-            if (window.innerWidth < 768) {
-                cardsPerPage = 1;
-            } else if (window.innerWidth < 1024) {
-                cardsPerPage = 2;
-            } else {
-                cardsPerPage = 3;
-            }
-            totalPages = Math.ceil(totalCards / cardsPerPage);
-        }
-        
-        /**
-         * FUNÇÃO: createIndicators()
-         * DESCRIÇÃO: Cria os indicadores (dots) do carrossel
-         */
-        function createIndicators() {
-            const indicatorsContainer = document.getElementById('carouselIndicators');
-            indicatorsContainer.innerHTML = '';
-            
-            for (let i = 0; i < totalPages; i++) {
-                const dot = document.createElement('div');
-                dot.className = 'indicator-dot';
-                if (i === currentPage) dot.classList.add('active');
-                dot.onclick = () => goToPage(i);
-                indicatorsContainer.appendChild(dot);
-            }
-        }
-        
-        /**
-         * FUNÇÃO: showPage()
-         * DESCRIÇÃO: Mostra a página específica do carrossel
-         */
-        function showPage(pageIndex) {
-            const cards = document.querySelectorAll('.suggestion-card');
-            const startIndex = pageIndex * cardsPerPage;
-            const endIndex = startIndex + cardsPerPage;
-            
-            cards.forEach((card, index) => {
-                if (index >= startIndex && index < endIndex) {
-                    card.style.display = 'flex';
-                } else {
-                    card.style.display = 'none';
-                }
-            });
-            
-            updateButtons();
-            updateIndicators();
-        }
-        
-        /**
-         * FUNÇÃO: moveCarousel()
-         * DESCRIÇÃO: Move o carrossel para frente ou trás
-         */
-        function moveCarousel(direction) {
-            const carousel = document.getElementById('carouselSuggestions');
-            
-            // Adiciona animação de fade
-            carousel.style.opacity = '0';
-            
-            setTimeout(() => {
-                currentPage += direction;
-                
-                // Limita o índice
-                if (currentPage < 0) currentPage = 0;
-                if (currentPage >= totalPages) currentPage = totalPages - 1;
-                
-                showPage(currentPage);
-                carousel.style.opacity = '1';
-            }, 200);
-        }
-        
-        /**
-         * FUNÇÃO: goToPage()
-         * DESCRIÇÃO: Vai para uma página específica
-         */
-        function goToPage(pageIndex) {
-            const carousel = document.getElementById('carouselSuggestions');
-            carousel.style.opacity = '0';
-            
-            setTimeout(() => {
-                currentPage = pageIndex;
-                showPage(currentPage);
-                carousel.style.opacity = '1';
-            }, 200);
-        }
-        
-        /**
-         * FUNÇÃO: updateButtons()
-         * DESCRIÇÃO: Atualiza estado dos botões de navegação
-         */
-        function updateButtons() {
-            document.getElementById('prevBtn').disabled = currentPage === 0;
-            document.getElementById('nextBtn').disabled = currentPage === totalPages - 1;
-        }
-        
-        /**
-         * FUNÇÃO: updateIndicators()
-         * DESCRIÇÃO: Atualiza indicadores ativos
-         */
-        function updateIndicators() {
-            document.querySelectorAll('.indicator-dot').forEach((dot, index) => {
-                dot.classList.toggle('active', index === currentPage);
-            });
-        }
-        
-        // Inicializa carrossel quando página carregar
-        window.addEventListener('DOMContentLoaded', initCarousel);
-        
         /**
          * FUNÇÃO: usarSugestao()
          * DESCRIÇÃO: Preenche o input com uma sugestão de pergunta
@@ -963,13 +623,13 @@ $conn->close();
                 if (data.sucesso) {
                     adicionarMensagem('assistant', data.resposta);
                 } else {
-                    adicionarMensagem('assistant', 'Erro: ' + data.erro);
+                    adicionarMensagem('assistant', '❌ Erro: ' + data.erro);
                 }
                 
             } catch (error) {
                 // Esconde loading
                 document.getElementById('loading').classList.remove('show');
-                adicionarMensagem('assistant', 'Erro na comunicação com o servidor. Tente novamente.');
+                adicionarMensagem('assistant', '❌ Erro na comunicação com o servidor. Tente novamente.');
             }
             
             // Reabilita botão

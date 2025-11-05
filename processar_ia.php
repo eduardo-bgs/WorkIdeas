@@ -4,6 +4,18 @@
  * ARQUIVO: processar_ia.php
  * DESCRIÇÃO: Processa requisições para API Gemini
  * ========================================
+ * IA : Google Gemini Pro
+ * MÉTODO: Requisição HTTP via cURL
+ * 
+ * FLUXO DE FUNCIONAMENTO:
+ * 1. Recebe pergunta do usuário via POST
+ * 2. Valida sessão de autenticação
+ * 3. Prepara prompt otimizado para projetos acadêmicos
+ * 4. Envia requisição HTTP POST para API Gemini
+ * 5. Processa resposta JSON da IA
+ * 6. Salva interação no banco MySQL
+ * 7. Retorna resposta em formato JSON
+ * ========================================
  */
 
 require_once 'config.php';
@@ -134,10 +146,12 @@ $dados_api = [
  */
 
 // Pega a chave da API do arquivo .env (variável de ambiente)
+carregarEnv();
 $api_key = GEMINI_API_KEY;
 
 // Monta a URL completa da API com a chave
-$url = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key={$api_key}";
+$url = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key={$api_key}";
+
 // Inicializa sessão cURL
 $curl = curl_init();
 
@@ -283,5 +297,104 @@ echo json_encode([
     'timestamp' => date('Y-m-d H:i:s')
 ], JSON_UNESCAPED_UNICODE);
 
+/**
+ * ========================================
+ *  MÉTODO cURL
+ * ========================================
+ * 
+ * O QUE É cURL?
+ * - Biblioteca nativa do PHP para fazer requisições HTTP/HTTPS
+ * - Não precisa instalar, já vem com PHP
+ * - Muito usado para consumir APIs REST
+ * 
+ * PASSO A PASSO:
+ * 
+ * 1. curl_init()
+ *    → Inicializa uma nova sessão cURL
+ *    → Retorna um "handle" (identificador) da conexão
+ * 
+ * 2. curl_setopt_array()
+ *    → Define múltiplas opções de configuração
+ *    → Opções principais:
+ *      • CURLOPT_URL: Endpoint da API
+ *      • CURLOPT_RETURNTRANSFER: Retorna resposta como string
+ *      • CURLOPT_POST: Define método HTTP como POST
+ *      • CURLOPT_POSTFIELDS: Dados enviados no body (JSON)
+ *      • CURLOPT_HTTPHEADER: Cabeçalhos HTTP
+ *      • CURLOPT_TIMEOUT: Tempo máximo de espera (30s)
+ * 
+ * 3. curl_exec()
+ *    → Executa a requisição HTTP
+ *    → Retorna a resposta da API como string
+ * 
+ * 4. curl_error()
+ *    → Captura mensagem de erro se houver
+ *    → Retorna string vazia se não houver erro
+ * 
+ * 5. curl_getinfo()
+ *    → Obtém informações sobre a requisição
+ *    → Podemos pegar: código HTTP, tempo de resposta, etc
+ * 
+ * 6. curl_close()
+ *    → Fecha a conexão cURL
+ *    → Libera recursos do servidor
+ * 
+ * VANTAGENS DO cURL:
+ * ✓ Nativo do PHP (não precisa instalar)
+ * ✓ Suporta HTTPS nativamente
+ * ✓ Controle total sobre headers e métodos HTTP
+ * ✓ Robusto e confiável para produção
+ * ✓ Suporte a timeout e retry
+ * ✓ Aceito por praticamente todas as APIs REST
+ * 
+ * ALTERNATIVAS AO cURL:
+ * - file_get_contents() → Mais simples, mas menos controle
+ * - Guzzle → Biblioteca externa, precisa Composer
+ * - stream_context_create() → Mais verboso
+ * 
+ * ESTRUTURA DA RESPOSTA DA API GEMINI:
+ * {
+ *   "candidates": [
+ *     {
+ *       "content": {
+ *         "parts": [
+ *           {
+ *             "text": "Resposta gerada pela IA aqui..."
+ *           }
+ *         ]
+ *       }
+ *     }
+ *   ]
+ * }
+ * 
+ * ========================================
+ * REGISTRO NO BANCO!
+ * ========================================
+ * 
+ * Todas as interações são salvas no MySQL:
+ * 
+ * TABELA: historico_ia
+ * CAMPOS:
+ * - id (auto increment)
+ * - usuario_id (quem fez a pergunta)
+ * - pergunta (texto da pergunta)
+ * - resposta (texto da resposta da IA)
+ * - data_interacao (timestamp automático)
+ * 
+ * QUANDO É SALVO?
+ * → Logo após receber resposta bem-sucedida da API Gemini
+ * → Antes de retornar o JSON para o frontend
+ * 
+ * ONDE VER O HISTÓRICO?
+ * → No dashboard.php clicando no botão "📜 Histórico"
+ * → Mostra últimas 20 interações do usuário
+ * 
+ * SEGURANÇA:
+ * → Cada usuário só vê seu próprio histórico
+ * → Usa prepared statements (proteção SQL injection)
+ * → Dados são sanitizados antes de exibir (proteção XSS)
+ * 
+ * ========================================
+ */
 
-/*
+?>

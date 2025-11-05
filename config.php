@@ -13,18 +13,18 @@
  */
 
 // ====================================
-// CARREGA VARIÁVEL DE AMBIENTE
+// CARREGAR VARIÁVEIS DE AMBIENTE
 // ====================================
 /**
- * Carrega as configurações do arquivo .env
- * (Para manter dados como chaves de API de fora do código)
+ * Carrega as configurações sensíveis do arquivo .env
+ * Para manter dados como chaves de API fora do código
  */
 function carregarEnv() {
     $envFile = __DIR__ . '/.env';
     
     // Verifica se o arquivo .env existe
     if (!file_exists($envFile)) {
-        die("ERRO: Arquivo .env não encontrado! Crie o arquivo baseado no .env.example");
+        die("⚠️ ERRO: Arquivo .env não encontrado! Crie o arquivo baseado no .env.example");
     }
     
     // Lê cada linha do arquivo .env
@@ -64,12 +64,13 @@ carregarEnv();
  * Estabelece conexão segura com MySQL
  * RETORNO: Objeto mysqli conectado
  */
+
 function conectarBanco() {
-    $conn = new mysqli(DB_HOST, DB_USER, DB_PASS, DB_NAME);
+    $conn = new mysqli(DB_HOST,DB_USER,DB_PASS,DB_NAME);
     
     // Verifica se houve erro na conexão
     if ($conn->connect_error) {
-        die("Erro na conexão com o banco de dados: " . $conn->connect_error);
+        die("⚠️ Erro na conexão com o banco de dados: " . $conn->connect_error);
     }
     
     // Define charset UTF-8 para suportar acentuação
